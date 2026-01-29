@@ -1,0 +1,93 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #fdf8f5;
+  color: #333;
+}
+
+/* Header */
+.hero {
+  text-align: center;
+  padding: 70px 20px;
+  background-color: #fff1e6;
+  border-bottom: 2px solid #ffe0cc;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 50px;
+  color: #c97c5d; /* soft pastel brown */
+}
+
+.hero p {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #d9a17c; /* smooth pastel orange */
+}
+
+/* Menu Grid */
+.menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  padding: 60px;
+}
+
+/* Category Cards */
+.section {
+  background-color: #ffffff;
+  padding: 25px 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+  perspective: 1000px;
+}
+
+.section:hover {
+  transform: rotateX(3deg) rotateY(3deg) translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.section h2 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ffe0cc;
+  padding-bottom: 8px;
+  color: #c97c5d;
+}
+
+/* Menu Items */
+.item {
+  margin-bottom: 18px;
+}
+
+.item .dish {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.item .price {
+  float: right;
+  font-weight: 400;
+}
+
+.item .desc {
+  font-size: 13px;
+  font-style: italic;
+  color: #555;
+  margin-top: 4px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 25px;
+  background-color: #fff1e6;
+  font-size: 14px;
+  color: #c97c5d;
+}
