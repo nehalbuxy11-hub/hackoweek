@@ -17,24 +17,22 @@
 <body>
   <div class="header">
     <h1>Nehal Buxy</h1>
-    <h3>Student | Kathak Dancer | Tech Enthusiast</h3>
+    <h3>CSE Student | Tech Enthusiast | Aspring Developer </h3>
     <img src="file:///D:/nehal/images/PHOTO.jpg" alt="Nehal Buxy">
   </div>
 
   <div class="section">
     <h2>About Me</h2>
     <p>I am Nehal Buxy, a 1st-year student at Symbiosis Institute of Technology.  
-    My hobbies are dancing, watching movies, arts & crafts.  
-    I am a Kathak dancer and good at coding.</p>
+    Proficient in Python and C programming, with a strong interest in software development.
+    Actively interested in art, crafts and dance, reflecting creativity and discipline beyond academics.</p>
   </div>
 
   <div class="section">
     <h2>Skills & Hobbies</h2>
     <ul>
-      <li>Kathak Dancing</li>
-      <li>Arts & Crafts</li>
-      <li>Watching Movies</li>
-      <li>Coding</li>
+      <li>Technical Skills: Python, C programming</li>
+      <li>Interests: Arts & Crafts</li>
     </ul>
   </div>
 
@@ -46,7 +44,7 @@
   </div>
 
   <div class="footer">
-    <p>© 2025 Nehal Buxy. All rights reserved.</p>
+    <p>© 2026 Nehal Buxy. All rights reserved.</p>
   </div>
 </body>
 </html>
