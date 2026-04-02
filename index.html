@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero-Gravity Library</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        :root {
+            --bg-color: #0b0c10;
+            --text-color: #c5c6c7;
+            --primary: #66fcf1;
+            --secondary: #45a29e;
+            --card-bg: rgba(31, 40, 51, 0.7);
+            --danger: #ff5e5e;
+            --font-main: 'Space Grotesk', sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Starry background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 50px 160px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 160px 120px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 210px 40px, #e0f2fe, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 260px 180px, #bae6fd, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 300px 90px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 350px 350px;
+            animation: twinkle 4s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        /* Floating animations */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes float-reverse {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(10px) rotate(-1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin-top: 5vh;
+            text-align: center;
+            z-index: 1;
+            position: relative;
+        }
+
+        h1 {
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(102, 252, 241, 0.6);
+            font-size: 3.5rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .capacity-info {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--secondary);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(69, 162, 158, 0.5);
+        }
+
+        .controls {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(102, 252, 241, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(102, 252, 241, 0.2);
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            animation: float-reverse 8s ease-in-out infinite;
+        }
+
+        input {
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--secondary);
+            background: rgba(11, 12, 16, 0.6);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: var(--font-main);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        input::placeholder {
+            color: rgba(197, 198, 199, 0.5);
+        }
+
+        input:focus {
+            box-shadow: 0 0 20px rgba(69, 162, 158, 0.6), inset 0 2px 5px rgba(0,0,0,0.5);
+            border-color: var(--primary);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-family: var(--font-main);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Shine effect */
+        button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(45deg) translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        button:hover::after {
+            opacity: 1;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .btn-add { background-color: var(--primary); color: #000; }
+        .btn-add:hover { box-shadow: 0 0 20px var(--primary); transform: translateY(-3px); }
+        
+        .btn-remove { background-color: var(--danger); color: #fff; }
+        .btn-remove:hover { box-shadow: 0 0 20px var(--danger); transform: translateY(-3px); }
+        
+        .btn-search { background-color: var(--secondary); color: #fff; }
+        .btn-search:hover { box-shadow: 0 0 20px var(--secondary); transform: translateY(-3px); }
+        
+        .btn-display { background-color: transparent; color: var(--text-color); border: 2px solid var(--text-color); }
+        .btn-display:hover { background-color: var(--text-color); color: var(--bg-color); box-shadow: 0 0 20px var(--text-color); transform: translateY(-3px); }
+
+        .message {
+            min-height: 28px;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            padding: 10px 0 50px 0;
+        }
+
+        .book-item {
+            background: linear-gradient(145deg, rgba(31, 40, 51, 0.8), rgba(11, 12, 16, 0.9));
+            border: 1px solid rgba(69, 162, 158, 0.3);
+            padding: 25px 20px;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: float 5s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+        }
+
+        .book-item:hover {
+            transform: scale(1.08) translateY(-15px) !important;
+            box-shadow: 0 15px 40px rgba(102, 252, 241, 0.3), inset 0 0 15px rgba(102, 252, 241, 0.1);
+            border-color: var(--primary);
+            z-index: 10;
+        }
+
+        /* Stagger animation timing for books to make them look like they are floating independently */
+        .book-item:nth-child(even) { animation-delay: -2s; animation-duration: 6s; }
+        .book-item:nth-child(3n) { animation-delay: -1s; animation-duration: 4.5s; }
+        .book-item:nth-child(4n) { animation-delay: -3s; animation-duration: 5.5s; }
+        .book-item:nth-child(5n) { animation-delay: -0.5s; animation-duration: 4s; }
+
+        .book-title {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+            word-wrap: break-word;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            line-height: 1.4;
+        }
+
+        .book-index {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            background: var(--primary);
+            color: #000;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 0 15px var(--primary);
+            border: 2px solid var(--bg-color);
+        }
+
+        /* Asteroids / ambient floating shapes (pure CSS) */
+        .asteroid {
+            position: absolute;
+            background: var(--card-bg);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            filter: blur(2px);
+            z-index: -1;
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.5);
+            animation: orbital 30s linear infinite;
+        }
+
+        @keyframes orbital {
+            from { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            color: rgba(197, 198, 199, 0.6);
+            font-style: italic;
+            font-size: 1.2rem;
+            padding: 40px;
+            border: 2px dashed rgba(69, 162, 158, 0.3);
+            border-radius: 16px;
+            background: rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <!-- Atmospheric depth elements -->
+    <div class="asteroid" style="width: 80px; height: 80px; top: 20%; left: 10%; animation-duration: 45s;"></div>
+    <div class="asteroid" style="width: 50px; height: 50px; top: 70%; right: 15%; animation-duration: 35s; animation-direction: reverse;"></div>
+    <div class="asteroid" style="width: 120px; height: 100px; bottom: 10%; left: 20%; animation-duration: 60s;"></div>
+
+    <div class="container">
+        <h1>Zero-Gravity Library</h1>
+        <div class="capacity-info">
+            Orbital Capacity: <span id="count">0</span> / <span id="max">10</span>
+        </div>
+
+        <div class="controls">
+            <input type="text" id="bookInput" placeholder="Enter book title transmission..." autocomplete="off">
+            <div class="message" id="messageBox">System ready. Awaiting coordinates.</div>
+            <div class="button-group">
+                <button class="btn-add" onclick="addBook()">Add Book</button>
+                <button class="btn-remove" onclick="removeBook()">Remove Book</button>
+                <button class="btn-search" onclick="searchBook()">Search Space</button>
+                <button class="btn-display" onclick="displayAllLogs()">Display All</button>
+            </div>
+        </div>
+
+        <div class="book-list" id="bookList">
+            <!-- Books will be beamed here -->
+        </div>
+    </div>
+
+    <script>
+        // System Configuration
+        const MAX_CAPACITY = 10;
+        let library = []; // Fixed-size manageable array implementation
+
+        // DOM Elements
+        const inputField = document.getElementById('bookInput');
+        const messageBox = document.getElementById('messageBox');
+        const bookList = document.getElementById('bookList');
+        const countDisplay = document.getElementById('count');
+        const maxDisplay = document.getElementById('max');
+
+        // Initialize Display
+        maxDisplay.textContent = MAX_CAPACITY;
+
+        // Messaging Engine
+        function showMessage(msg, type = 'info') {
+            messageBox.textContent = msg;
+            
+            // Apply thematic colors
+            if (type === 'error') messageBox.style.color = 'var(--danger)';
+            else if (type === 'success') messageBox.style.color = 'var(--primary)';
+            else messageBox.style.color = 'var(--text-color)';
+            
+            // Auto-clear message after 4.5 seconds
+            clearTimeout(window.messageTimeout);
+            window.messageTimeout = setTimeout(() => {
+                messageBox.style.opacity = 0;
+                setTimeout(() => {
+                    messageBox.textContent = 'System ready. Awaiting coordinates.';
+                    messageBox.style.color = 'var(--text-color)';
+                    messageBox.style.opacity = 1;
+                }, 300);
+            }, 4500);
+        }
+
+        // Core Functions
+        function updateCapacityDisplay() {
+            countDisplay.textContent = library.length;
+            // Visual warning when nearing capacity
+            if (library.length === MAX_CAPACITY) {
+                countDisplay.style.color = 'var(--danger)';
+                countDisplay.style.textShadow = '0 0 10px var(--danger)';
+            } else if (library.length >= MAX_CAPACITY - 2) {
+                countDisplay.style.color = 'orange';
+            } else {
+                countDisplay.style.color = 'inherit';
+                countDisplay.style.textShadow = 'none';
+            }
+        }
+
+        function renderBooks(booksToRender) {
+            bookList.innerHTML = '';
+            
+            if (booksToRender.length === 0) {
+                bookList.innerHTML = '<div class="empty-state">Vacuum detected. No records found in the orbital database.</div>';
+                return;
+            }
+
+            booksToRender.forEach((book) => {
+                // Find actual index in main library array for correct visual numbering
+                const realIndex = library.findIndex(b => b.toLowerCase() === book.toLowerCase());
+                
+                const bookEl = document.createElement('div');
+                bookEl.className = 'book-item';
+                bookEl.innerHTML = `
+                    <div class="book-index">${realIndex + 1}</div>
+                    <div class="book-title">${escapeHTML(book)}</div>
+                `;
+                bookList.appendChild(bookEl);
+            });
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag])
+            );
+        }
+
+        // Library Operations
+        function addBook() {
+            const title = inputField.value.trim();
+            
+            if (!title) {
+                showMessage('Error: Please specify a valid celestial book title.', 'error');
+                return;
+            }
+
+            if (library.length >= MAX_CAPACITY) {
+                showMessage(`CRITICAL ALERT: Orbital library capacity (${MAX_CAPACITY}) reached. Cannot add "${title}".`, 'error');
+                return;
+            }
+
+            // Case-insensitive check for duplicates
+            const isDuplicate = library.some(book => book.toLowerCase() === title.toLowerCase());
+            if (isDuplicate) {
+                showMessage('Error: This log already exists in the orbital database.', 'error');
+                return;
+            }
+
+            // Fixed-size collection management: Array Push
+            library.push(title);
+            
+            inputField.value = '';
+            updateCapacityDisplay();
+            showMessage(`"${title}" beamed up successfully!`, 'success');
+            renderBooks(library);
+        }
+
+        function removeBook() {
+            const titleToRemove = inputField.value.trim();
+            
+            if (!titleToRemove) {
+                showMessage('Error: Please specify a title to eject.', 'error');
+                return;
+            }
+
+            const initialLength = library.length;
+            // Case-insensitive removal
+            library = library.filter(book => book.toLowerCase() !== titleToRemove.toLowerCase());
+
+            if (library.length < initialLength) {
+                showMessage(`"${titleToRemove}" was successfully ejected into deep space.`, 'success');
+                inputField.value = '';
+                updateCapacityDisplay();
+                renderBooks(library);
+            } else {
+                showMessage(`Error: "${titleToRemove}" not found in current orbit.`, 'error');
+            }
+        }
+
+        function searchBook() {
+            const query = inputField.value.trim().toLowerCase();
+            
+            if (!query) {
+                showMessage('Error: Please specify a search frequency.', 'error');
+                return;
+            }
+
+            // Case-insensitive partial match search
+            const results = library.filter(book => book.toLowerCase().includes(query));
+            
+            if (results.length > 0) {
+                showMessage(`Radar hit! Found ${results.length} matching record(s).`, 'success');
+            } else {
+                showMessage(`No records matching "${query}" detected on radar.`, 'error');
+            }
+            
+            renderBooks(results);
+        }
+
+        function displayAllLogs() {
+            renderBooks(library);
+            if (library.length > 0) {
+                 showMessage('Displaying all current orbital logs.', 'success');
+            } else {
+                 showMessage('Orbital library is currently empty.');
+            }
+            inputField.value = '';
+        }
+
+        // Initialize empty state
+        renderBooks(library);
+
+        // Listen for enter key on input field to add a book by default
+        inputField.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addBook();
+            }
+        });
+    </script>
+</body>
+</html>
