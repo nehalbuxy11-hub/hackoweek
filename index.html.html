@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://weather-dashboard-nine-bay.vercel.app/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="./Weather Dashboard_files/css2" rel="stylesheet">
+    <link rel="stylesheet" href="./Weather Dashboard_files/style.css">
+</head>
+<body>
+    <div class="dashboard-wrap">
+        <!-- Top Section: Location & Date -->
+        <header class="top-section fade-in-up" style="">
+            <div class="location-selector" id="search-container">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <input type="text" id="city-search" class="search-input" placeholder="Search city..." autocomplete="off" value="Brooklyn, New York, USA">
+                <div class="search-dropdown" id="search-dropdown">
+                    <!-- Search results injected here -->
+                </div>
+            </div>
+            <div class="date-text" id="current-date">(Thursday, April 2)</div>
+        </header>
+
+        <!-- Main Content Area Grid -->
+        <main class="main-content">
+            <!-- Left Section: Current Weather Text -->
+            <section class="current-weather fade-in-up" style="--delay: 0.1s;">
+                <div class="temperature">
+                    <span class="temp-value" id="current-temp">11</span>
+                    <span class="temp-unit">°C</span>
+                </div>
+                <div class="condition" id="current-condition">Overcast</div>
+                
+                <div class="weather-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+                            </svg>
+                            Wind
+                        </div>
+                        <div class="meta-value" id="current-wind">23.5 km/h</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                            </svg>
+                            Humidity
+                        </div>
+                        <div class="meta-value" id="current-humidity">89%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Center Section: Weather Illustration -->
+            <section class="weather-illustration fade-in-up" style="--delay: 0.2s;">
+                <div class="illustration-container">
+                    <!-- High-quality SVG assets will be referenced or embedded here. -->
+                    <div class="animated-cloud">
+                        <svg class="cloud-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <lineargradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#ffffff"></stop>
+                                    <stop offset="70%" stop-color="#f0f0f0"></stop>
+                                    <stop offset="100%" stop-color="#d0d0d0"></stop>
+                                </lineargradient>
+                                <radialgradient id="cloudGlow" cx="50%" cy="80%" r="50%">
+                                    <stop offset="0%" stop-color="rgba(255, 184, 0, 0.5)"></stop>
+                                    <stop offset="100%" stop-color="rgba(255, 184, 0, 0)"></stop>
+                                </radialgradient>
+                                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <fedropshadow dx="0" dy="10" stdDeviation="15" flood-opacity="0.2"></fedropshadow>
+                                </filter>
+                            </defs>
+                            <!-- Ambient Glow behind lightning -->
+                            <ellipse cx="140" cy="80" rx="40" ry="20" fill="url(#cloudGlow)"></ellipse>
+                            <!-- Multi-layered cloud path for 3D depth -->
+                            <path d="M 50 85 
+                                     C 30 85, 15 70, 20 50
+                                     C 20 30, 40 20, 55 35
+                                     C 60 10, 100 0, 120 25
+                                     C 150 15, 180 30, 180 60
+                                     C 190 80, 170 95, 150 90
+                                     C 150 95, 60 95, 50 85 Z" fill="url(#cloudGrad)" filter="url(#shadow)"></path>
+                            <!-- Front subtle highlight -->
+                            <path d="M 60 40 C 70 20, 100 15, 110 30" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.6"></path>
+                        </svg>
+                    </div>
+                    <div class="lightning-wrapper">
+                        <svg class="lightning-svg" viewBox="0 0 40 80" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <filter id="lightningGlow" x="-50%" y="-50%" width="200%" height="200%">
+                                    <fegaussianblur stdDeviation="3" result="coloredBlur"></fegaussianblur>
+                                    <femerge>
+                                        <femergenode in="coloredBlur"></femergenode>
+                                        <femergenode in="SourceGraphic"></femergenode>
+                                    </femerge>
+                                </filter>
+                                <lineargradient id="lightGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#FFDD66"></stop>
+                                    <stop offset="50%" stop-color="#FFB800"></stop>
+                                    <stop offset="100%" stop-color="#FF8800"></stop>
+                                </lineargradient>
+                            </defs>
+                            <path d="M 25 5 L 5 45 L 20 45 L 15 75 L 35 30 L 20 30 Z" fill="url(#lightGrad)" filter="url(#lightningGlow)"></path>
+                        </svg>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Section: Forecast Card -->
+            <section class="forecast-section fade-in-up" style="--delay: 0.3s;">
+                <div class="forecast-card glass-panel">
+                    <ul class="forecast-list" id="forecast-list"><li class="forecast-item active">
+                <svg class="weather-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"></path><path d="M16 14v6"></path><path d="M8 14v6"></path><path d="M12 16v6"></path>
+                </svg>
+                <div class="forecast-info">
+                    <div class="day-name">Friday</div>
+                    <div class="condition-sm">Dense Drizzle</div>
+                </div>
+                <div class="forecast-temp">17°</div>
+            </li><li class="forecast-item ">
+                <svg class="weather-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"></path><path d="M16 14v6"></path><path d="M8 14v6"></path><path d="M12 16v6"></path>
+                </svg>
+                <div class="forecast-info">
+                    <div class="day-name">Saturday</div>
+                    <div class="condition-sm">Light Drizzle</div>
+                </div>
+                <div class="forecast-temp">17°</div>
+            </li><li class="forecast-item ">
+                <svg class="weather-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"></path><path d="M16 14v8"></path><path d="M8 14v8"></path><path d="M12 16v8"></path>
+                </svg>
+                <div class="forecast-info">
+                    <div class="day-name">Sunday</div>
+                    <div class="condition-sm">Moderate Rain Showers</div>
+                </div>
+                <div class="forecast-temp">18°</div>
+            </li><li class="forecast-item ">
+                <svg class="weather-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.5 19H9a7 7 0 1 1 6.71-9.9A4.6 4.6 0 0 1 17.5 19Z"></path>
+                </svg>
+                <div class="forecast-info">
+                    <div class="day-name">Monday</div>
+                    <div class="condition-sm">Overcast</div>
+                </div>
+                <div class="forecast-temp">13°</div>
+            </li><li class="forecast-item ">
+                <svg class="weather-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.5 19H9a7 7 0 1 1 6.71-9.9A4.6 4.6 0 0 1 17.5 19Z"></path>
+                </svg>
+                <div class="forecast-info">
+                    <div class="day-name">Tuesday</div>
+                    <div class="condition-sm">Overcast</div>
+                </div>
+                <div class="forecast-temp">11°</div>
+            </li><li class="forecast-item ">
+                <svg class="weather-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <div class="forecast-info">
+                    <div class="day-name">Wednesday</div>
+                    <div class="condition-sm">Mainly Clear</div>
+                </div>
+                <div class="forecast-temp">6°</div>
+            </li></ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Section: Hourly Timeline Graph -->
+        <footer class="bottom-section fade-in-up" style="--delay: 0.4s;">
+            <div class="timeline-container">
+                <svg class="graph-svg" preserveAspectRatio="none" viewBox="0 0 1000 150"><path d="M 0 69.44444444444444 C 71.42857142857143 69.44444444444444, 71.42857142857143 75, 142.85714285714286 75 C 214.28571428571428 75, 214.28571428571428 75, 285.7142857142857 75 C 357.1428571428571 75, 357.1428571428571 80.55555555555556, 428.57142857142856 80.55555555555556 C 500 80.55555555555556, 500 80.55555555555556, 571.4285714285714 80.55555555555556 C 642.8571428571429 80.55555555555556, 642.8571428571429 80.55555555555556, 714.2857142857143 80.55555555555556 C 785.7142857142858 80.55555555555556, 785.7142857142858 80.55555555555556, 857.1428571428571 80.55555555555556 C 928.5714285714286 80.55555555555556, 928.5714285714286 80.55555555555556, 1000 80.55555555555556" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" class="graph-line"></path><circle cx="142.85714285714286" cy="75" r="5" fill="#ffb800"></circle></svg>
+                <div class="timeline-labels" id="timeline-labels"><div class="time-label" style="position: absolute; left: 0%; transform: translateX(-50%); top: 24.4444px;">
+                <div class="temp-tooltip" style="font-size: 1.1rem; font-weight: 300; margin-bottom: 90.55555555555556px;">
+                    9°
+                </div>
+                <div class="time-text" style="color: rgba(255,255,255,0.6);">05:00</div>
+            </div><div class="time-label" style="position: absolute; left: 14.2857%; transform: translateX(-50%); top: 30px;">
+                <div class="temp-tooltip" style="font-size: 1.1rem; font-weight: 300; margin-bottom: 85px;">
+                    8°
+                </div>
+                <div class="time-text" style="background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 12px; color: #fff;">06:00</div>
+            </div><div class="time-label" style="position: absolute; left: 28.5714%; transform: translateX(-50%); top: 30px;">
+                <div class="temp-tooltip" style="font-size: 1.1rem; font-weight: 300; margin-bottom: 85px;">
+                    8°
+                </div>
+                <div class="time-text" style="color: rgba(255,255,255,0.6);">07:00</div>
+            </div><div class="time-label" style="position: absolute; left: 42.8571%; transform: translateX(-50%); top: 35.5556px;">
+                <div class="temp-tooltip" style="font-size: 1.1rem; font-weight: 300; margin-bottom: 79.44444444444444px;">
+                    7°
+                </div>
+                <div class="time-text" style="color: rgba(255,255,255,0.6);">08:00</div>
+            </div><div class="time-label" style="position: absolute; left: 57.1429%; transform: translateX(-50%); top: 35.5556px;">
+                <div class="temp-tooltip" style="font-size: 1.1rem; font-weight: 300; margin-bottom: 79.44444444444444px;">
+                    7°
+                </div>
+                <div class="time-text" style="color: rgba(255,255,255,0.6);">09:00</div>
+            </div><div class="time-label" style="position: absolute; left: 71.4286%; transform: translateX(-50%); top: 35.5556px;">
+                <div class="temp-tooltip" style="font-size: 1.1rem; font-weight: 300; margin-bottom: 79.44444444444444px;">
+                    7°
+                </div>
+                <div class="time-text" style="color: rgba(255,255,255,0.6);">10:00</div>
+            </div><div class="time-label" style="position: absolute; left: 85.7143%; transform: translateX(-50%); top: 35.5556px;">
+                <div class="temp-tooltip" style="font-size: 1.1rem; font-weight: 300; margin-bottom: 79.44444444444444px;">
+                    7°
+                </div>
+                <div class="time-text" style="color: rgba(255,255,255,0.6);">11:00</div>
+            </div><div class="time-label" style="position: absolute; left: 100%; transform: translateX(-50%); top: 35.5556px;">
+                <div class="temp-tooltip" style="font-size: 1.1rem; font-weight: 300; margin-bottom: 79.44444444444444px;">
+                    7°
+                </div>
+                <div class="time-text" style="color: rgba(255,255,255,0.6);">12:00</div>
+            </div></div>
+            </div>
+            
+            <div class="controls">
+                <button class="nav-btn prev-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="nav-btn next-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </footer>
+    </div>
+    <script src="./Weather Dashboard_files/script.js.download"></script>
+
+
+</body></html>
